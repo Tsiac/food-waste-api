@@ -1,0 +1,39 @@
+﻿@Food-Waste-API_HostAddress = https://localhost:7101
+
+GET {{Food-Waste-API_HostAddress}}/menuitems
+
+###
+
+POST {{Food-Waste-API_HostAddress}}/menuitems
+Content-Type: application/json
+
+{
+    "username": "Guy",
+    "name":"No Fish",
+    "isComplete":true,
+    "isMeat": true,
+    "isVeg": true
+
+}
+###
+
+GET {{Food-Waste-API_HostAddress}}/menuitems/2
+
+###
+
+PUT {{Food-Waste-API_HostAddress}}/menuitems/2
+Content-Type: application/json
+
+{
+  "name":"clean fish",
+  "isComplete":true
+}
+###
+
+DELETE {{Food-Waste-API_HostAddress}}/menuitems/2
+
+###
+
+GET {{Food-Waste-API_HostAddress}}/menuitems/complete
+
+###
