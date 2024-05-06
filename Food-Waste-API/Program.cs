@@ -25,9 +25,6 @@ app.UseCors("AllowAll");
 app.MapGet("/menuitems", async (MenuDb db) =>
     await db.Menus.ToListAsync());
 
-app.MapGet("/menuitems/complete", async (MenuDb db) =>
-    await db.Menus.Where(t => t.IsComplete).ToListAsync());
-
 app.MapGet("/menuitems/{id}", async (int id, MenuDb db) =>
     await db.Menus.FindAsync(id)
         is Menu menu
