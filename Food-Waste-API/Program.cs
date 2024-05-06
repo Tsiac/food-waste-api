@@ -1,8 +1,5 @@
 using Food_Waste_API;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MenuDb>(opt => opt.UseInMemoryDatabase("MenuList"));
