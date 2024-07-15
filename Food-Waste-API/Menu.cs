@@ -1,13 +1,34 @@
-﻿namespace Food_Waste_API
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Food_Waste_API
 {
     public class Menu
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Username { get; set; }
-        public bool IsComplete { get; set; }
-        public bool IsFish { get; set; }
-        public bool IsMeat { get; set; }
-        public bool IsVeg { get; set; }
+        public int id { get; set; }
+        public string dateString { get; set; }
+        public List<Dish> dishes { get; set; }
+        public string name { get; set; }
+        public string username { get; set; }
+        public bool isComplete { get; set; }
+        public bool isFish { get; set; }
+        public bool isMeat { get; set; }
+        public bool isVeg { get; set; }
+
     }
+
+    public class Dish
+    {
+        public Guid id { get; set; } = Guid.NewGuid();
+        public string name { get; set; }
+        public List<Ingredient> ingredients { get; set; }
+    }
+
+    public class Ingredient
+    {
+        public Guid id { get; set; } = Guid.NewGuid();
+        public string name { get; set; }
+        public string quantity { get; set; }
+        public string counter { get; set; }
+    }
+
 }

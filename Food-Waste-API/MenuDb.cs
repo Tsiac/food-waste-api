@@ -8,5 +8,7 @@ namespace Food_Waste_API
         : base(options) { }
 
         public DbSet<Menu> Menus => Set<Menu>();
+        public DbSet<Dish> Dishes => Set<Dish>();
+        public DbSet<Ingredient> Ingredients => Set<Ingredient>();
     }
 }
