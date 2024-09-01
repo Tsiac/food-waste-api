@@ -1,10 +1,8 @@
-﻿@Food-Waste-API_HostAddress = https://localhost:7101
-
-GET {{Food-Waste-API_HostAddress}}/menuitems
+﻿@FoodWasteAPI_HostAddress = https://localhost:7101
 
 ###
 
-POST {{Food-Waste-API_HostAddress}}/menuitems
+POST {{Url}}/menus
 Content-Type: application/json
 
 {
@@ -17,7 +15,7 @@ Content-Type: application/json
 }
 ###
 
-GET {{Food-Waste-API_HostAddress}}/menuitems/2
+GET {{Food-Waste-API_HostAddress}}/menus/2
 
 ###
 
@@ -30,10 +28,18 @@ Content-Type: application/json
 }
 ###
 
-DELETE {{Food-Waste-API_HostAddress}}/menuitems/2
+DELETE {{Food-Waste-API_HostAddress}}/menus/2
 
 ###
 
 GET {{Food-Waste-API_HostAddress}}/menuitems/complete
+
+###
+
+GET {{Food-Waste-API_HostAddress}}/menus
+
+###
+
+GET {{FoodWasteAPI_HostAddress}}/menus/
 
 ###

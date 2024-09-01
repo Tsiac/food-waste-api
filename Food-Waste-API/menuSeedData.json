@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "215ad4ad-2eca-4093-a98b-b4c152e2aaaa",
     "dateString": "25-07-2024",
     "dishes": [
       {
@@ -45,10 +45,28 @@
     "isComplete": false,
     "isFish": false,
     "isMeat": true,
-    "isVeg": false
+    "isVeg": false,
+    "maxAttendees": 4,
+    "attendees": [
+      "personA",
+      "personB",
+      "personC"
+    ],
+    "comments": [
+      {
+        "name": "Zach Ward",
+        "comment": "I'll be going shopping for the food at Tesco on the day before'",
+        "dateCreated": "2024-07-25T12:00:01Z"
+      },
+      {
+        "name": "Hollie Ward",
+        "comment": "I'll join you :)'",
+        "dateCreated": "2024-07-25T13:00:01Z"
+      }
+    ]
   },
   {
-    "id": 2,
+    "id": "215ad4ad-aaaa-4093-a98b-b4c152e2e69d",
     "dateString": "25-07-2024",
     "dishes": [
       {
@@ -75,6 +93,11 @@
     "isComplete": false,
     "isFish": false,
     "isMeat": false,
-    "isVeg": true
+    "isVeg": true,
+    "maxAttendees": 4,
+    "attendees": [
+      "personA",
+      "personB"
+    ]
   }
 ]

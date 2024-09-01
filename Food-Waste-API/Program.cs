@@ -1,5 +1,6 @@
 using Food_Waste_API;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,46 +23,76 @@ var app = builder.Build();
 
 SeedDatabase(app);
 app.UseCors("AllowAll");
-
-app.MapGet("/menuitems", async (MenuDb db) =>
+   
+app.MapGet("/menus/join/{id}/{user}", async (MenuDb db, Guid id, string user) =>
 {
+    Menu? menu = await db.Menus.FindAsync(id);
 
+    if (menu == null)
+    {
+        return Results.NotFound();
+    }
+
+    menu?.attendees.Add(user);
+    await db.SaveChangesAsync();
+
+    return Results.Ok(menu);
+
+});
+
+app.MapGet("/menus", async (MenuDb db) =>
+{
     await db.Dishes.ToListAsync();
     await db.Ingredients.ToListAsync();
+    await db.Comments.ToListAsync();
 
     return await db.Menus.OrderBy(x => DateTime.Parse(x.dateString)).ToListAsync();
 
 });
 
-app.MapGet("/menuitems/{id}", async (int id, MenuDb db) =>
-    await db.Menus.FindAsync(id)
+app.MapGet("/menus/{id}", async (MenuDb db, Guid id) =>
+{
+    await db.Dishes.ToListAsync();
+    await db.Ingredients.ToListAsync();
+    await db.Comments.ToListAsync();
+
+    return await db.Menus.FindAsync(id)
         is Menu menu
             ? Results.Ok(menu)
-            : Results.NotFound());
+            : Results.NotFound();
+});
 
-app.MapPost("/menuitems", async (Menu menu, MenuDb db) =>
+
+app.MapPost("/menus", async (MenuDb db, Menu menu) =>
 {
     db.Menus.Add(menu);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/menuitems/{menu.id}", menu);
+    return Results.Created($"/menus/{menu.id}", menu);
 });
 
-//app.MapPut("/menuitems/{id}", async (int id, Menu inputMenu, MenuDb db) =>
-//{
-//    var menu = await db.Menus.FindAsync(id);
+app.MapPost("/menus/comment/{id}", async (MenuDb db, Guid id, Comment comment) =>
+{
+    Menu? menu = await db.Menus.FindAsync(id);
+    await db.Comments.ToListAsync();
 
-//    if (menu is null) return Results.NotFound();
+    if (menu == null)
+    {
+        return Results.NotFound();
+    }
 
-//    menu.Name = inputMenu.Name;
-//    menu.IsComplete = inputMenu.IsComplete;
+    comment.dateCreated = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+    Random rng = new();
+    comment.id = rng.Next();
 
-//    await db.SaveChangesAsync();
+    menu?.comments.Add(comment);
+    db.Entry(comment).State = EntityState.Added;
+    await db.SaveChangesAsync();
 
-//    return Results.NoContent();
-//});
+    return Results.Ok(menu);
+});
 
-app.MapDelete("/menuitems/{id}", async (int id, MenuDb db) =>
+app.MapDelete("/menus/{id}", async (MenuDb db, Guid id) =>
 {
     if (await db.Menus.FindAsync(id) is Menu menu)
     {
@@ -83,7 +114,7 @@ void SeedDatabase(WebApplication app)
 
         if (!context.Menus.Any())
         {
-            var jsonData = File.ReadAllText("seedData.json");
+            var jsonData = File.ReadAllText("menuSeedData.json");
             var menus = JsonSerializer.Deserialize<List<Menu>>(jsonData);
 
             if (menus != null)

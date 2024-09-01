@@ -10,5 +10,6 @@ namespace Food_Waste_API
         public DbSet<Menu> Menus => Set<Menu>();
         public DbSet<Dish> Dishes => Set<Dish>();
         public DbSet<Ingredient> Ingredients => Set<Ingredient>();
+        public DbSet<Comment> Comments => Set<Comment>();
     }
 }
