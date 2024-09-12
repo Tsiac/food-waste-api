@@ -46,7 +46,7 @@ app.MapGet("/menus", async (MenuDb db) =>
     await db.Ingredients.ToListAsync();
     await db.Comments.ToListAsync();
 
-    return await db.Menus.OrderBy(x => DateTime.Parse(x.dateString)).ToListAsync();
+    return await db.Menus.ToListAsync();
 
 });
 
