@@ -35,6 +35,13 @@ namespace Food_Waste_API
         public string quantity { get; set; }
         public string counter { get; set; }
     }
+    public class Ingredient2
+    {
+        public Guid id { get; set; }
+        public string name { get; set; }
+        public int quantity { get; set; }
+        public string counter { get; set; }
+    }
 
     public class Comment
     {
@@ -42,6 +49,13 @@ namespace Food_Waste_API
         public string name { get; set; }
         public string comment { get; set; }
         public string dateCreated { get; set; }
+    }
+
+
+    public class Person
+    {
+        public string id { get; set; }
+        public List<Ingredient2> storeCupboard { get; set; }
     }
 
 }

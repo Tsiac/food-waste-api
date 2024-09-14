@@ -1,0 +1,17 @@
+{
+  "id": "zw4",
+  "storeCupboard": [
+    {
+      "id": "51ad399d-0b08-438e-84f9-3598ad4a7c56",
+      "name": "chicken",
+      "quantity": 400,
+      "counter": "g"
+    },
+    {
+      "id": "5b1e1ef9-0d8f-44f6-9b74-07491aacc375",
+      "name": "lemon",
+      "quantity": 1,
+      "counter": ""
+    }
+  ]
+}

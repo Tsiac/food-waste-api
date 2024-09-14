@@ -5,6 +5,7 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MenuDb>(opt => opt.UseInMemoryDatabase("MenuList"));
+builder.Services.AddDbContext<CupboardDb>(opt => opt.UseInMemoryDatabase("CupboardList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddCors(opt =>
@@ -21,7 +22,7 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
-SeedDatabase(app);
+SeedDatabases(app);
 app.UseCors("AllowAll");
    
 app.MapGet("/menus/join/{id}/{user}", async (MenuDb db, Guid id, string user) =>
@@ -104,9 +105,71 @@ app.MapDelete("/menus/{id}", async (MenuDb db, Guid id) =>
     return Results.NotFound();
 });
 
+app.MapGet("/storecupboard/{user}", async (CupboardDb db, string user) =>
+{
+    await db.Ingredients.ToListAsync();
+
+    return await db.People.FindAsync(user)
+        is Person person
+            ? Results.Ok(person)
+            : Results.NotFound();
+});
+
+
+
+app.MapPost("/storecupboard/{user}", async (CupboardDb db, string user, List<Ingredient2> ingredients) =>
+{
+    await db.Ingredients.ToListAsync();
+    await db.People.ToListAsync();
+
+    Person? person = await db.People.FindAsync(user);
+
+    if (person == null)
+    {
+        Person newPerson = new()
+        {
+            id = user,
+            storeCupboard = ingredients
+        };
+        db.Add(newPerson);
+        //db.Entry(newPerson).State = EntityState.Added;
+
+        person = newPerson;
+    }
+    else
+    {
+        if(person.storeCupboard != null)
+            person.storeCupboard.Clear();
+
+        foreach (var ingredient in ingredients)
+        {
+            // Check if the ingredient already exists in the db
+            var existingIngredient = await db.Ingredients.FindAsync(ingredient.id); // Assuming Ingredient2 has an Id
+
+            if (existingIngredient != null)
+            {
+                // Attach existing ingredient
+                person.storeCupboard.Add(existingIngredient);
+            }
+            else
+            {
+                // Add new ingredient to the db and associate it with the person
+                person.storeCupboard.Add(ingredient);
+                db.Entry(ingredient).State = EntityState.Added;
+            }
+        }
+
+        db.Entry(person).State = EntityState.Modified;
+    }
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(person);
+});
+
 app.Run();
 
-void SeedDatabase(WebApplication app)
+void SeedDatabases(WebApplication app)
 {
     using (var scope = app.Services.CreateScope())
     {
@@ -121,6 +184,20 @@ void SeedDatabase(WebApplication app)
             {
                 context.Menus.AddRange(menus);
                 context.SaveChanges();
+            }
+        }
+
+        var context2 = scope.ServiceProvider.GetRequiredService<CupboardDb>();
+
+        if(!context2.People.Any())
+        {
+            var jsonData = File.ReadAllText("storeCupboardSeedData.json");
+            var person = JsonSerializer.Deserialize<Person>(jsonData);
+
+            if (person != null && person.id != null)
+            {
+                context2.People.Add(person);
+                context2.SaveChanges();
             }
         }
     }
