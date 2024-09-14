@@ -41,25 +41,24 @@
       }
     ],
     "name": "Pies Pies Pies Pies",
-    "username": "Zach Ward",
+    "username": "zw4",
     "isComplete": false,
     "isFish": false,
     "isMeat": true,
     "isVeg": false,
     "maxAttendees": 4,
     "attendees": [
-      "personA",
-      "personB",
-      "personC"
+      "zw4",
+      "hollie"
     ],
     "comments": [
       {
-        "name": "Zach Ward",
+        "name": "zw4",
         "comment": "I'll be going shopping for the food at Tesco on the day before'",
         "dateCreated": "2024-07-25T12:00:01Z"
       },
       {
-        "name": "Hollie Ward",
+        "name": "hollie",
         "comment": "I'll join you :)'",
         "dateCreated": "2024-07-25T13:00:01Z"
       }
@@ -89,15 +88,14 @@
       }
     ],
     "name": "Holl's Veg",
-    "username": "Hollie Abbott",
+    "username": "hollie",
     "isComplete": false,
     "isFish": false,
     "isMeat": false,
     "isVeg": true,
     "maxAttendees": 4,
     "attendees": [
-      "personA",
-      "personB"
+      "hollie"
     ]
   }
 ]
